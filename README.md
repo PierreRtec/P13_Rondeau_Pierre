@@ -59,10 +59,9 @@ Dans le reste de la documentation sur le développement local, il est supposé q
 - Ouvrir une session shell `sqlite3`
 - Se connecter à la base de données `.open oc-lettings-site.sqlite3`
 - Afficher les tables dans la base de données `.tables`
-- Afficher les colonnes dans le tableau des profils, `pragma table_info(Python-OC-Lettings-FR_profile);`
-- Lancer une requête sur la table des profils, `select user_id, favorite_city from
-  Python-OC-Lettings-FR_profile where favorite_city like 'B%';`
-- `.quit` pour quitter
+- Afficher les colonnes dans le tableau des profils, `PRAGMA table_info(oc_lettings_site_profile);`
+- Lancer une requête sur la table des profils, `SELECT user_id, favorite_city FROM oc_lettings_site_profile WHERE favorite_city LIKE 'B%';`
+- `.quit` pour quitter OU Ctrl+C
 
 #### Panel d'administration
 
@@ -73,5 +72,5 @@ Dans le reste de la documentation sur le développement local, il est supposé q
 
 Utilisation de PowerShell, comme ci-dessus sauf :
 
-- Pour activer l'environnement virtuel, `.\venv\Scripts\Activate.ps1` 
-- Remplacer `which <my-command>` par `(Get-Command <my-command>).Path`
+- Pour activer l'environnement virtuel, `pipenv shell`
+- Pour installer les dépendances, `pipenv install`
