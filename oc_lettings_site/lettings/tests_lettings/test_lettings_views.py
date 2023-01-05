@@ -1,6 +1,5 @@
 from assertpy import assert_that
-from django.test import TestCase, Client
-
+from django.test import Client, TestCase
 
 client = Client()
 
