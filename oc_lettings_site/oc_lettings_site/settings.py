@@ -19,8 +19,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    "profiles.apps.ProfilesConfig",
     "lettings.apps.LettingsConfig",
+    "profiles.apps.ProfilesConfig",
     "oc_lettings_site.apps.OCLettingsSiteConfig",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -45,7 +45,7 @@ ROOT_URLCONF = "oc_lettings_site.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR, "templates")],
+        "DIRS": [os.path.join(BASE_DIR, "profiles")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
