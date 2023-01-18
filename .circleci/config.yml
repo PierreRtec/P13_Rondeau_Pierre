@@ -17,6 +17,12 @@ jobs:
             pip install --upgrade pip
             pip install -r requirements.txt
       - run:
+          name: Linting
+          command: |
+            isort .
+            flake8 .
+            black .
+      - run:
           name: Run tests
           environment:
             TEST_DIR_OC_LETTINGS_SITE: "./oc_lettings_site/tests_oc_lettings_site/"
