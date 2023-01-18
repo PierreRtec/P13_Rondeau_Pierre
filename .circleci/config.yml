@@ -17,6 +17,9 @@ jobs:
             pipenv install --ignore-pipfile
       - run:
           name: Run tests
+          environment:
+            TEST_DIR_OC_LETTINGS_SITE: "oc_lettings_site/tests_oc_lettings_site/"
+            TEST_DIR_LETTINGS: "lettings/tests_lettings/"
+            TEST_DIR_PROFILES: "profiles/tests_profiles/"
           command: |
-            cd ./oc_lettings_site/
-            pipenv run python manage.py test oc_lettings_site/tests_oc_lettings_site/ lettings/tests_lettings/ profiles/tests_profiles/
+            pipenv run python manage.py test $TEST_DIR_OC_LETTINGS_SITE $TEST_DIR_LETTINGS $TEST_DIR_PROFILES
