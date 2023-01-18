@@ -23,4 +23,4 @@ jobs:
             TEST_DIR_LETTINGS: "/lettings/tests_lettings/"
             TEST_DIR_PROFILES: "/profiles/tests_profiles/"
           command: |
-            pipenv run python oc_lettings_site/manage.py test $TEST_DIR_OC_LETTINGS_SITE $TEST_DIR_LETTINGS $TEST_DIR_PROFILES
+            python oc_lettings_site/manage.py test $TEST_DIR_OC_LETTINGS_SITE $TEST_DIR_LETTINGS $TEST_DIR_PROFILES
