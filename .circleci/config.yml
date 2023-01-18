@@ -67,13 +67,11 @@ jobs:
       - run:
           name: Docker Auth
           command: |
-            docker login -u $docker_username
-            $docker_auth
+            echo $docker_password | docker login -u $docker_username --password-stdin
       - run:
           name: Build and Push Docker Image
           command: |
             docker build -t p13_oc_lettings_site .
-            echo $docker_password | docker login --username $docker_username --password-stdin
             docker images
             docker tag p13_oc_lettings_site registry.heroku.com/prodev-oc-lettings-site/web
             docker push registry.heroku.com/prodev-oc-lettings-site/web
