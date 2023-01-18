@@ -24,5 +24,5 @@ jobs:
           command: |
             cd ./oc_lettings_site/
             ls
-            python -m oc_lettings_site/manage test $TEST_DIR_OC_LETTINGS_SITE $TEST_DIR_LETTINGS $TEST_DIR_PROFILES
+            python -m manage test $TEST_DIR_OC_LETTINGS_SITE $TEST_DIR_LETTINGS $TEST_DIR_PROFILES
             ls
