@@ -48,6 +48,7 @@ jobs:
           name: Install Heroku CLI
           command: |
             sudo curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+            curl https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
       - run:
           name: Login to Heroku
           command: |
