@@ -25,6 +25,11 @@ jobs:
             cd ./oc_lettings_site/
             python -m manage test $TEST_DIR_OC_LETTINGS_SITE $TEST_DIR_LETTINGS $TEST_DIR_PROFILES
       - run:
+          name: Display environment variables
+          command: |
+            echo $DOCKER_USERNAME
+            echo $DOCKER_PSWD
+      - run:
           name: Docker Hub Auth
           environment:
             DOCKER_USERNAME: "docker_username"
