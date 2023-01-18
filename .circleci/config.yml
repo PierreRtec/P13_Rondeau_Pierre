@@ -30,7 +30,7 @@ jobs:
             DOCKER_USERNAME: "docker_username"
             DOCKER_PSWD: "docker_password"
           command: |
-            docker login --username $DOCKER_USERNAME --password-stdin $DOCKER_PSWD
+            echo $DOCKER_PSWD | docker login --username $DOCKER_USERNAME --password-stdin
       - run:
           name: Run Docker Image
           command: |
