@@ -30,12 +30,9 @@ jobs:
             echo $DOCKER_USERNAME
             echo $DOCKER_PSWD
       - run:
-          name: Docker Hub Auth
-          environment:
-            DOCKER_USERNAME: "docker_username"
-            DOCKER_PSWD: "docker_password"
+          name: Login to Docker Hub
           command: |
-            echo $DOCKER_PSWD | docker login --username $DOCKER_USERNAME --password-stdin
+            echo $docker_password | docker login --username $docker_username --password-stdin
       - run:
           name: Run Docker Image
           command: |
