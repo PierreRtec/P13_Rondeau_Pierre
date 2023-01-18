@@ -44,3 +44,16 @@ jobs:
           name: Run Docker container
           command: |
             docker run -d --name p13_oc_lettings_site_container p13_oc_lettings_site
+      - run:
+          name: Login to Heroku
+          command: |
+            echo ${HEROKU_API_KEY} | docker login --username=_ --password-stdin registry.heroku.com
+      - run:
+          name: Push Docker Image to Heroku
+          command: |
+            docker tag p13_oc_lettings_site registry.heroku.com/prodev-oc-lettings-site/web
+            docker push registry.heroku.com/prodev-oc-lettings-site/web
+      - run:
+          name: Deploy to Heroku
+          command: |
+            heroku container:release web -a prodev-oc-lettings-site
