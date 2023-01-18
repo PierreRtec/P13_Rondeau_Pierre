@@ -25,15 +25,11 @@ jobs:
             cd ./oc_lettings_site/
             python -m manage test $TEST_DIR_OC_LETTINGS_SITE $TEST_DIR_LETTINGS $TEST_DIR_PROFILES
       - run:
-          name: Display environment variables
-          command: |
-            echo $DOCKER_USERNAME
-            echo $DOCKER_PSWD
-      - run:
           name: Login to Docker Hub
           command: |
             echo $docker_password | docker login --username $docker_username --password-stdin
       - run:
           name: Run Docker Image
           command: |
+            systemctl start docker
             docker build -t p13_oc_lettings_site .
