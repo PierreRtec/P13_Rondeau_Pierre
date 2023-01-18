@@ -31,5 +31,6 @@ jobs:
       - run:
           name: Run Docker Image
           command: |
-            systemctl start docker
+            sudo journalctl -u docker
+            docker ps
             docker build -t p13_oc_lettings_site .
