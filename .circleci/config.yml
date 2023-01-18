@@ -51,7 +51,7 @@ jobs:
       - run:
           name: Login to Heroku
           command: |
-            echo ${HEROKU_EMAIL} ${HEROKU_PASSWORD} | heroku login
+            echo $HEROKU_EMAIL $HEROKU_PASSWORD | heroku login
       - run:
           name: Generate Heroku API Key
           command: |
@@ -59,12 +59,12 @@ jobs:
       - run:
           name: Use Heroku API Key
           command: |
-            echo ${HEROKU_API_KEY} | heroku auth:token
+            echo $HEROKU_API_KEY | heroku auth:token
       - run:
           name: Build and Push Docker Image
           command: |
             docker build -t p13_oc_lettings_site .
-            echo ${DOCKER_PASSWORD} | docker login --username ${DOCKER_USERNAME} --password-stdin
+            echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
             docker tag p13_oc_lettings_site registry.heroku.com/prodev-oc-lettings-site/web
             docker push registry.heroku.com/prodev-oc-lettings-site/web
       - run:
