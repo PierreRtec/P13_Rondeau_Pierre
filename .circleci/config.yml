@@ -1,14 +1,21 @@
 version: 2.1
+
 jobs:
   build:
+    working_directory: ~/P13_Rondeau_Pierre
     docker:
-      - image: alpine:3.15
-        auth:
-          username: mydockerhub-user
-          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+      - image: circleci/python:3.11-stretch-browsers
     steps:
+      - checkout
       - run:
-          name: The First Step
+          name: Install pipenv
           command: |
-            echo 'Hello World!'
-            echo 'This is the delivery pipeline'
+            pip install --user pipenv
+      - run:
+          name: Install dependencies
+          command: |
+            pipenv install --ignore-pipfile --python 3.11
+      - run:
+          name: Run tests
+          command: |
+            pipenv run python manage.py test
