@@ -2,7 +2,7 @@ version: 2.1
 
 jobs:
   build:
-    working_directory: ~/P13_Rondeau_Pierre/oc_lettings_site/
+    working_directory: ~/P13_Rondeau_Pierre/
     docker:
       - image: circleci/python:3.9-buster-node-browsers-legacy
     steps:
@@ -10,7 +10,6 @@ jobs:
       - run:
           name: Install pipenv
           command: |
-            pip install --upgrade pip
             pip install --user pipenv
       - run:
           name: Install dependencies
@@ -23,4 +22,4 @@ jobs:
             TEST_DIR_LETTINGS: "/lettings/tests_lettings/"
             TEST_DIR_PROFILES: "/profiles/tests_profiles/"
           command: |
-            pipenv run python manage.py test $TEST_DIR_OC_LETTINGS_SITE $TEST_DIR_LETTINGS $TEST_DIR_PROFILES
+            pipenv run python oc_lettings_site/manage.py test $TEST_DIR_OC_LETTINGS_SITE $TEST_DIR_LETTINGS $TEST_DIR_PROFILES
