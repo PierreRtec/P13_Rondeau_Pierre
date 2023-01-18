@@ -2,7 +2,7 @@ version: 2.1
 
 jobs:
   build:
-    working_directory: ~/P13_Rondeau_Pierre
+    working_directory: ~/P13_Rondeau_Pierre/oc_lettings_site/
     docker:
       - image: circleci/python:3.9-buster-node-browsers-legacy
     steps:
@@ -15,10 +15,6 @@ jobs:
           name: Install dependencies
           command: |
             pipenv install --ignore-pipfile
-      - run:
-          name: Django Project Directory
-          command: |
-            cd ./oc_lettings_site/
       - run:
           name: Run tests
           environment:
