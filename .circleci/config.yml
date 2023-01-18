@@ -31,5 +31,9 @@ jobs:
       - run:
           name: Run Docker Image
           command: |
+            ls
             cd ..
+            ls
+            cd ..
+            ls
             docker build -t p13_oc_lettings_site .
