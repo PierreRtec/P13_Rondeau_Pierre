@@ -26,3 +26,14 @@ jobs:
             ls
             python -m manage test $TEST_DIR_OC_LETTINGS_SITE $TEST_DIR_LETTINGS $TEST_DIR_PROFILES
             ls
+      - run:
+          name: Docker Hub Auth
+          environment:
+            DOCKER_USERNAME: "$docker_username"
+            DOCKER_PSWD: "$docker_pswd"
+          command: |
+            docker login --username $DOCKER_USERNAME --password $DOCKER_PSWD
+      - run:
+          name: Run Docker Image
+          command: |
+            docker build -t p13_oc_lettings_site
