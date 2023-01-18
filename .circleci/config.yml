@@ -65,9 +65,10 @@ jobs:
           command: |
             echo $HEROKU_API_KEY | heroku auth:token
       - run:
-          name: Store Docker credentials
+          name: Docker Auth
           command: |
-            echo "{\"auths\":{\"https://index.docker.io/v1/\":{\"auth\":\"$docker_auth\"}}}" | base64 -d > $HOME/.docker/config.json
+            docker login -u $docker_username
+            $docker_auth
       - run:
           name: Build and Push Docker Image
           command: |
