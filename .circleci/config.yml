@@ -18,8 +18,8 @@ jobs:
       - run:
           name: Run tests
           environment:
-            TEST_DIR_OC_LETTINGS_SITE: "oc_lettings_site/tests_oc_lettings_site/"
-            TEST_DIR_LETTINGS: "lettings/tests_lettings/"
-            TEST_DIR_PROFILES: "profiles/tests_profiles/"
+            TEST_DIR_OC_LETTINGS_SITE: "/oc_lettings_site/tests_oc_lettings_site/"
+            TEST_DIR_LETTINGS: "/lettings/tests_lettings/"
+            TEST_DIR_PROFILES: "/profiles/tests_profiles/"
           command: |
             pipenv run python manage.py test $TEST_DIR_OC_LETTINGS_SITE $TEST_DIR_LETTINGS $TEST_DIR_PROFILES
