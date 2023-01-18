@@ -70,7 +70,7 @@ jobs:
             docker build -t p13_oc_lettings_site .
             echo $docker_password | docker login --username $docker_username --password-stdin
             docker ps
-            docker tag $docker_username/p13_oc_lettings_site registry.heroku.com/prodev-oc-lettings-site/web
+            docker tag ./p13_oc_lettings_site registry.heroku.com/prodev-oc-lettings-site/web
             docker push registry.heroku.com/prodev-oc-lettings-site/web
       - run:
           name: Release to Heroku
