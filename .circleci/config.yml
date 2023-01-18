@@ -2,9 +2,6 @@ version: 2.1
 
 jobs:
   build:
-    machine:
-      services:
-        - docker
     docker:
       - image: circleci/python:3.9-buster-node-browsers-legacy
     steps:
