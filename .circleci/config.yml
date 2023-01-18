@@ -51,7 +51,15 @@ jobs:
       - run:
           name: Login to Heroku
           command: |
-            echo ${HEROKU_API_KEY} | heroku login --interactive
+            echo ${HEROKU_EMAIL} ${HEROKU_PASSWORD} | heroku login
+      - run:
+          name: Generate Heroku API Key
+          command: |
+            heroku auth:token
+      - run:
+          name: Use Heroku API Key
+          command: |
+            echo ${HEROKU_API_KEY} | heroku auth:token
       - run:
           name: Build and Push Docker Image
           command: |
