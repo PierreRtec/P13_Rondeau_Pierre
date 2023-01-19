@@ -49,9 +49,9 @@ jobs:
           command: |
             curl https://cli-assets.heroku.com/install.sh | sh
       - run:
-          name: Create Heroku API Key
+          name: Get Heroku API Key
           command: |
-            heroku authorizations:create --description "CircleCI Deployment"
+            export HEROKU_API_KEY="$(heroku auth:token)"
       - run:
           name: Get Heroku API Key
           command: |
@@ -70,6 +70,9 @@ jobs:
             echo $docker_password | docker login -u $docker_username --password-stdin
             docker build -t p13_oc_lettings_site .
             docker tag p13_oc_lettings_site registry.heroku.com/prodev-oc-lettings-site/web
+# test heroku access and login before docker push
+            heroku access
+            heroku container:login
             docker push registry.heroku.com/prodev-oc-lettings-site/web
       - run:
           name: Release to Heroku
