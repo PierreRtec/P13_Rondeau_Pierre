@@ -67,7 +67,7 @@ jobs:
       - run:
           name: Heroku Python Buildpack
           command: |
-            heroku buildpacks:set heroku/python
+            heroku buildpacks:set heroku/python -a prodev-oc-lettings-site
       - run:
           name: Docker Auth Build and Push
           command: |
