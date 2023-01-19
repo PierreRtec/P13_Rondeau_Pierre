@@ -49,16 +49,10 @@ jobs:
           command: |
             curl https://cli-assets.heroku.com/install.sh | sh
       - run:
-          name: Get Heroku API Key
+          name: Heroku API Key
           command: |
             export HEROKU_API_KEY="$(heroku auth:token)"
-      - run:
-          name: Get Heroku API Key
-          command: |
             export HEROKU_API_KEY="$(heroku authorizations:info --json | jq -r '.access_token')"
-      - run:
-          name: Add Heroku API Key to CircleCI
-          command: |
             echo "HEROKU_API_KEY=${HEROKU_API_KEY}" >> $BASH_ENV
       - run:
           name: Use Heroku API Key
