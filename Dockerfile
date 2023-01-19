@@ -13,4 +13,5 @@ EXPOSE 8000
 
 ENV DJANGO_SETTINGS_MODULE oc_lettings_site.settings
 
+CMD ["pipenv", "install"]
 CMD ["python", "oc_lettings_site/manage.py", "runserver"]
