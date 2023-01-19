@@ -31,19 +31,6 @@ jobs:
           command: |
             cd ./oc_lettings_site/
             python -m manage test $TEST_DIR_OC_LETTINGS_SITE $TEST_DIR_LETTINGS $TEST_DIR_PROFILES
-#      - run:
-#          name: Docker Hub jobs
-#          command: |
-#            echo $docker_password | docker login --username $docker_username --password-stdin
-#
-#      - run:
-#          name: Docker build
-#          command: |
-#            docker build -t p13_oc_lettings_site .
-#      - run:
-#          name: Run Docker container
-#          command: |
-#            docker run -d --name p13_oc_lettings_site_container p13_oc_lettings_site
       - run:
           name: Install Heroku CLI
           command: |
