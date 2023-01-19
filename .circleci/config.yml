@@ -70,7 +70,6 @@ jobs:
             echo $docker_password | docker login -u $docker_username --password-stdin
             docker build -t p13_oc_lettings_site .
             docker tag p13_oc_lettings_site registry.heroku.com/prodev-oc-lettings-site/web
-# test heroku access and login before docker push
             heroku access
             heroku container:login
             docker push registry.heroku.com/prodev-oc-lettings-site/web
