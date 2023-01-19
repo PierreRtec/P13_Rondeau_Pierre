@@ -71,8 +71,11 @@ jobs:
             docker build -t p13_oc_lettings_site .
             docker tag p13_oc_lettings_site registry.heroku.com/prodev-oc-lettings-site/web
             heroku access -app prodev-oc-lettings-site
+            docker ps
             heroku container:login -app prodev-oc-lettings-site
-            docker push registry.heroku.com/prodev-oc-lettings-site/web
+            docker ps
+            docker push registry.heroku.com/prodev-oc-lettings-site/web:latest
+            docker ps
       - run:
           name: Release to Heroku
           command: |
