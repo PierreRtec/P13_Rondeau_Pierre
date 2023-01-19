@@ -65,6 +65,10 @@ jobs:
           command: |
             echo $HEROKU_API_KEY | heroku auth:token
       - run:
+          name: Heroku Python Buildpack
+          command: |
+            heroku buildpacks:set heroku/python
+      - run:
           name: Docker Auth Build and Push
           command: |
             echo $docker_password | docker login -u $docker_username --password-stdin

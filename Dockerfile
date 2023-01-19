@@ -8,7 +8,7 @@ COPY . /P13_Rondeau_Pierre/oc_lettings_site/
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 RUN pip install pipenv
-RUN pipenv install
+RUN pipenv install --ignore-pipfile --python 3.11
 
 EXPOSE 8000
 
