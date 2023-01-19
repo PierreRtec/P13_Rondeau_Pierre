@@ -72,7 +72,6 @@ jobs:
             docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
             docker tag p13_oc_lettings_site registry.heroku.com/prodev-oc-lettings-site/web
             docker push registry.heroku.com/prodev-oc-lettings-site/web:latest
-            docker ps
       - run:
           name: Release to Heroku
           command: |
