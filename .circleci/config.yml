@@ -65,14 +65,10 @@ jobs:
           command: |
             echo $HEROKU_API_KEY | heroku auth:token
       - run:
-          name: Docker Auth
+          name: Docker Auth Build and Push
           command: |
             echo $docker_password | docker login -u $docker_username --password-stdin
-      - run:
-          name: Build and Push Docker Image
-          command: |
             docker build -t p13_oc_lettings_site .
-            docker images
             docker tag p13_oc_lettings_site registry.heroku.com/prodev-oc-lettings-site/web
             docker push registry.heroku.com/prodev-oc-lettings-site/web
       - run:
