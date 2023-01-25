@@ -28,11 +28,12 @@ jobs:
             cd ./oc_lettings_site/
             python -m manage test $TEST_DIR_OC_LETTINGS_SITE $TEST_DIR_LETTINGS $TEST_DIR_PROFILES
       - run:
-          name: Install curl & Heroku Cli
+          name: Install apt packages
           command: |
             apt-get update
             apt-get install -y curl
             apt-get install -y openssh-client git
+            apt-get install -y docker
             curl https://cli-assets.heroku.com/install.sh | sh
       - run:
           name: Get Heroku API Key First Step
