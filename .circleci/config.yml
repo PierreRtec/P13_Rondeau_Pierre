@@ -60,7 +60,6 @@ jobs:
           command: |
             echo $docker_password | docker login -u $docker_username --password-stdin
             docker build -t p13_oc_lettings_site .
-            heroku config:set PORT=$PORT -a prodev-oc-lettings-site
             docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
             docker tag p13_oc_lettings_site registry.heroku.com/prodev-oc-lettings-site/web
             docker push registry.heroku.com/prodev-oc-lettings-site/web:latest
