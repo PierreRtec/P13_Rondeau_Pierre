@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/python:3.11-stretch-curl
+      - image: python:3.11-slim-buster
     steps:
       - checkout
       - setup_remote_docker
