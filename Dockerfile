@@ -8,8 +8,7 @@ WORKDIR /app
 COPY . /app
 
 RUN pip install --upgrade pip
-RUN pip install pipenv
-RUN pipenv install --ignore-pipfile --python 3.11
+RUN pip install -r requirements.txt
 
 EXPOSE 8000
 
