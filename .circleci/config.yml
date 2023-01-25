@@ -34,6 +34,7 @@ jobs:
             apt-get install -y curl
             apt-get install -y openssh-client git
             apt-get install -y docker
+            apt-get install -y jq
             curl https://cli-assets.heroku.com/install.sh | sh
       - run:
           name: Get Heroku API Key First Step
