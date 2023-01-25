@@ -12,8 +12,8 @@ COPY . /P13_Rondeau_Pierre/oc_lettings_site/
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-EXPOSE $PORT
+EXPOSE 8000
 
 ENV DJANGO_SETTINGS_MODULE=oc_lettings_site.settings
 
-CMD ["python", "oc_lettings_site/manage.py", "runserver"]
+CMD ["python", "oc_lettings_site/manage.py", "runserver", "0.0.0.0:8000"]
