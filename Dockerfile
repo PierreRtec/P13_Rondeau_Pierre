@@ -11,6 +11,8 @@ RUN pipenv install --ignore-pipfile --python 3.11
 
 EXPOSE 8000
 
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 ENV DJANGO_SETTINGS_MODULE oc_lettings_site.settings
 
 CMD ["python", "oc_lettings_site/manage.py", "runserver"]
