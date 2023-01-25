@@ -2,6 +2,7 @@ FROM python:3.11-slim-buster
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+ENV PORT=8000
 
 WORKDIR /P13_Rondeau_Pierre
 
@@ -15,4 +16,4 @@ EXPOSE 8000
 
 ENV DJANGO_SETTINGS_MODULE=oc_lettings_site.settings
 
-CMD ["python", "oc_lettings_site/manage.py", "runserver"]
+CMD ["python", "oc_lettings_site/manage.py", "runserver", " 0.0.0.0:8000"]
