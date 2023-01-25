@@ -59,7 +59,7 @@ jobs:
           name: Docker Auth Build and Push
           command: |
             echo $docker_password | docker login -u $docker_username --password-stdin
-            docker build -t p13_oc_lettings_site -p 0.0.0.0.:8000 .
+            docker build -t p13_oc_lettings_site .
             docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
             docker tag p13_oc_lettings_site registry.heroku.com/prodev-oc-lettings-site/web
             docker push registry.heroku.com/prodev-oc-lettings-site/web:latest
