@@ -59,9 +59,7 @@ workflows:
   build-and-deploy:
     jobs:
       - test
-      - deploy:
-          requires:
-            - test
+      - deploy
     orbs:
       - heroku
       - docker
