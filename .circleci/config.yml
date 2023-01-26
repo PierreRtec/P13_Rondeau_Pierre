@@ -18,6 +18,7 @@ jobs:
             isort .
             flake8 .
             black .
+            cd ./oc_lettings_site/
             python -m manage test $TEST_DIR_OC_LETTINGS_SITE $TEST_DIR_LETTINGS $TEST_DIR_PROFILES
       - run:
           name: Set Heroku API Key
