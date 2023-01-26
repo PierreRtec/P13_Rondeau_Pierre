@@ -5,7 +5,7 @@ orbs:
 
 
 jobs:
-  - linting_and_testing:
+  - linting-and-testing:
       steps:
         - checkout
         - setup_remote_docker
@@ -25,7 +25,7 @@ jobs:
             command: |
               cd ./oc_lettings_site/
               python -m manage test $TEST_DIR_OC_LETTINGS_SITE $TEST_DIR_LETTINGS $TEST_DIR_PROFILES
-  - build_and_deploy:
+  - build-and-deploy:
       steps:
         - setup_remote_docker
         - run:
