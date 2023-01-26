@@ -3,22 +3,20 @@ version: 2.1
 orbs:
   heroku: circleci/heroku@2.0.0
   docker: circleci/docker@2.2.0
-  python: circleci/python@2.1.1
 
 jobs:
   build:
-    docker:
-      - image: cimg/python:3.9
+    executor: python/default
     steps:
       - checkout
       - setup_remote_docker
       - run:
-          name: Install dependencies
+          name: Install Dependencies
           command: |
             pip install --upgrade pip
             pip install -r requirements.txt
       - run:
-          name: Linting and testing
+          name: Linting and Testing
           command: |
             isort .
             flake8 .
@@ -26,19 +24,15 @@ jobs:
             cd ./oc_lettings_site/
             python -m manage test $TEST_DIR_OC_LETTINGS_SITE $TEST_DIR_LETTINGS $TEST_DIR_PROFILES
       - run:
-          name: Set Heroku API Key
+          name: Set the Heroku API Key
           command: |
             echo "HEROKU_API_KEY=$HEROKU_API_KEY" >> $BASH_ENV
             echo $HEROKU_API_KEY | heroku auth:token
-      - deploy:
-          name: Deploy to Heroku
-          command: |
-            heroku create -a prodev-oc-lettings-site
-            heroku buildpacks:set heroku/python -a prodev-oc-lettings-site
-            heroku config:set PORT=$PORT -a prodev-oc-lettings-site
-            echo $docker_password | docker login -u $docker_username --password-stdin
-            docker build -t p13_oc_lettings_site .
-            docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
-            docker tag p13_oc_lettings_site registry.heroku.com/prodev-oc-lettings-site/web
-            docker push registry.heroku.com/prodev-oc-lettings-site/web:latest
-            heroku container:release web -a prodev-oc-lettings-site
+      - heroku/deploy-container:
+          app_name: prodev-oc-lettings-site
+          image: p13_oc_lettings_site
+          username: $docker_username
+          password: $docker_password
+      - run:
+          name: Release the container
+          command: heroku container:release web -a prodev-oc-lettings-site
