@@ -6,7 +6,7 @@ orbs:
 workflows:
   linting_and_testing:
     jobs:
-      - linting-and-testing:
+      - linting_and_testing:
           steps:
             - checkout
             - setup_remote_docker
@@ -28,7 +28,7 @@ workflows:
                   python -m manage test $TEST_DIR_OC_LETTINGS_SITE $TEST_DIR_LETTINGS $TEST_DIR_PROFILES
   build_and_deploy:
     jobs:
-      - build-and-deploy:
+      - build_and_deploy:
           steps:
             - setup_remote_docker
             - run:
