@@ -33,6 +33,9 @@ jobs:
             export HEROKU_API_KEY="$(heroku auth:token)"
             export HEROKU_API_KEY="$(heroku authorizations:info --json | jq -r '.access_token')"
             echo "HEROKU_API_KEY=${HEROKU_API_KEY}" >> $BASH_ENV
+      - run:
+          name: Use Heroku API Key
+          command: |
             echo $HEROKU_API_KEY | heroku auth:token
       - run:
           name: Create Heroku App
