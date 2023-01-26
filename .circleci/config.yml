@@ -1,69 +1,75 @@
 version: 2.1
 
 orbs:
-  heroku: circleci/heroku@2.0.0
-  docker: circleci/docker@2.2.0
-  python: circleci/python@2.1
-
-jobs:
-  test-and-lint:
-    executor: python/default
-    steps:
-      - test
-      - lint
-      - run:
-          name: Install Dependencies
-          command: |
-            pip install --upgrade pip
-            pip install -r requirements.txt
-      - run:
-          name: Linting and Testing
-          command: |
-            isort .
-            flake8 .
-            black .
-            cd ./oc_lettings_site/
-            python -m manage test $TEST_DIR_OC_LETTINGS_SITE $TEST_DIR_LETTINGS $TEST_DIR_PROFILES
-  deploy:
-    executor: heroku/default
-    steps:
-      - test
-      - lint
-      - run:
-          name: Get Heroku API Key
-          command: |
-            export HEROKU_API_KEY="$(heroku auth:token)"
-            echo $HEROKU_API_KEY | heroku auth:token
-      - run:
-          name: Create Heroku App
-          command: |
-            heroku create -a prodev-oc-lettings-site
-      - run:
-          name: Heroku Python Buildpack & config:set
-          command: |
-            heroku buildpacks:set heroku/python -a prodev-oc-lettings-site
-            heroku config:set PORT=$PORT -a prodev-oc-lettings-site
-      - run:
-          name: Docker Auth Build and Push
-          command: |
-            echo $docker_password | docker login -u $docker_username --password-stdin
-            docker build -t p13_oc_lettings_site .
-            docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
-            docker tag p13_oc_lettings_site registry.heroku.com/prodev-oc-lettings-site/web
-            docker push registry.heroku.com/prodev-oc-lettings-site/web:latest
-      - run:
-          name: Release to Heroku
-          command: |
-            heroku container:release web -a prodev-oc-lettings-site
+  heroku: circleci/heroku@x.y
 
 workflows:
-  version: 2
-  build-and-deploy:
+  linting_and_testing:
     jobs:
-      - test-and-lint
-      - deploy:
-          requires:
-            - test-and-lint
-    orbs:
-      - heroku
-      - python
+      - linting-and-testing:
+          steps:
+            - checkout
+            - setup_remote_docker
+            - run:
+                name: Install dependencies
+                command: |
+                  pip install --upgrade pip
+                  pip install -r requirements.txt
+            - run:
+                name: Linting
+                command: |
+                  isort .
+                  flake8 .
+                  black .
+            - run:
+                name: Run tests
+                command: |
+                  cd ./oc_lettings_site/
+                  python -m manage test $TEST_DIR_OC_LETTINGS_SITE $TEST_DIR_LETTINGS $TEST_DIR_PROFILES
+  build_and_deploy:
+    jobs:
+      - build-and-deploy:
+          steps:
+            - setup_remote_docker
+            - run:
+                name: Install apt packages
+                command: |
+                  curl https://cli-assets.heroku.com/install.sh | sh
+            - run:
+                name: Get Heroku API Key First Step
+                command: |
+                  export HEROKU_API_KEY="$(heroku auth:token)"
+            - run:
+                name: Get Heroku API Key Second step
+                command: |
+                  export HEROKU_API_KEY="$(heroku authorizations:info --json | jq -r '.access_token')"
+            - run:
+                name: Add Heroku API Key to CircleCI
+                command: |
+                  echo "HEROKU_API_KEY=${HEROKU_API_KEY}" >> $BASH_ENV
+            - run:
+                name: Use Heroku API Key
+                command: |
+                  echo $HEROKU_API_KEY | heroku auth:token
+            - run:
+                name: Create Heroku App
+                command: |
+                  heroku create -a prodev-oc-lettings-site
+            - run:
+                name: Heroku Python Buildpack & config:set
+                command: |
+                  heroku buildpacks:set heroku/python -a prodev-oc-lettings-site
+                  heroku config:set PORT=$PORT -a prodev-oc-lettings-site
+            - run:
+                name: Docker Auth Build and Push
+                command: |
+                  echo $docker_password | docker login -u $docker_username --password-stdin
+                  docker build -t p13_oc_lettings_site .
+                  docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
+                  docker tag p13_oc_lettings_site registry.heroku.com/prodev-oc-lettings-site/web
+                  docker push registry.heroku.com/prodev-oc-lettings-site/web:latest
+            - run:
+                name: Release to Heroku
+                command: |
+                  heroku container:release web -a prodev-oc-lettings-site
+
