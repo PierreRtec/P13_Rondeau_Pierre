@@ -15,4 +15,4 @@ ENV PORT=8000
 
 EXPOSE $PORT
 
-CMD ["gunicorn", "oc-lettings-site.wsgi:application"]
+CMD ["gunicorn", "oc-lettings-site.wsgi:application", "--bind", "0.0.0.0:$PORT"]
