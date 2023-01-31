@@ -31,14 +31,11 @@ jobs:
             heroku buildpacks:set heroku/python -a prodev-oc-lettings-site
             heroku config:set PORT=$PORT -a prodev-oc-lettings-site
       - run:
-          name: Docker Auth Build and Push
+          name: Docker Auth, Build and Push to Heroku
           command: |
             echo $docker_password | docker login -u $docker_username --password-stdin
             docker build -t p13_oc_lettings_site .
             docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
             docker tag p13_oc_lettings_site registry.heroku.com/prodev-oc-lettings-site/web
             docker push registry.heroku.com/prodev-oc-lettings-site/web:latest
-      - run:
-          name: Release to Heroku
-          command: |
             heroku container:release web -a prodev-oc-lettings-site
