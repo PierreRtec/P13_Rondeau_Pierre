@@ -1,1 +1,1 @@
-web: gunicorn oc-lettings-site.wsgi --workers 3 --bind 0.0.0.0:8000
+web: gunicorn oc-lettings-site.wsgi:application --workers 3 --bind 0.0.0.0:8000
