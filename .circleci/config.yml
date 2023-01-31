@@ -8,13 +8,10 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
-          name: Install dependencies
+          name: Install dependencies and Linting
           command: |
             pip install --upgrade pip
             pip install -r requirements.txt
-      - run:
-          name: Linting
-          command: |
             isort .
             flake8 .
             black .
