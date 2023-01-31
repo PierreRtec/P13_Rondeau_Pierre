@@ -9,8 +9,8 @@ COPY . /P13_Rondeau_Pierre/
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
-RUN cd .\oc_lettings_site\
 
 ENV DJANGO_SETTINGS_MODULE=oc_lettings_site.settings
+ENV PORT=8000
 
-CMD ["python", "manage.py", "runserver"]
+CMD ["gunicorn", "oc-lettings-site.wsgi:application", "--bind", "0.0.0.0:$PORT"]
