@@ -13,4 +13,4 @@ RUN pip install -r requirements.txt
 ENV DJANGO_SETTINGS_MODULE=oc_lettings_site.settings
 ENV PORT=8000
 
-CMD ["gunicorn", "oc-lettings-site.wsgi:application", "--bind", "0.0.0.0:$PORT"]
+CMD ["gunicorn", "oc-lettings-site.wsgi", "--bind", "0.0.0.0:$PORT"]
