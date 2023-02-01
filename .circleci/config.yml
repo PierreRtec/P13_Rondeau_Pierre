@@ -29,7 +29,7 @@ jobs:
             echo $HEROKU_API_KEY | heroku auth:token
             heroku create -a prodev-oc-lettings-site
             heroku buildpacks:set heroku/python -a prodev-oc-lettings-site
-            heroku config:set PORT=$PORT -a prodev-oc-lettings-site
+            heroku config:set --port=$PORT -a prodev-oc-lettings-site
       - run:
           name: Docker Auth, Build and Push to Heroku
           command: |
