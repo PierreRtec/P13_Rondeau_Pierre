@@ -122,3 +122,13 @@ sentry_sdk.init(
     # django.contrib.auth) you may enable sending PII data.
     send_default_pii=True,
 )
+
+
+# SET PORT DYNAMICALLY WITH $PORT
+PORT = int(os.environ.get("PORT", 8080))
+
+if "PORT" in os.environ:
+    host = "0.0.0.0"
+else:
+    host = "127.0.0.1"
+
