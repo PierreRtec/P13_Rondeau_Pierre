@@ -12,6 +12,4 @@ RUN pip install -r requirements.txt
 
 ENV DJANGO_SETTINGS_MODULE=oc_lettings_site.settings
 
-EXPOSE 8080
-
 CMD ["python", "oc_lettings_site/manage.py", "runserver"]
