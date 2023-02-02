@@ -12,6 +12,8 @@ RUN pip install -r requirements.txt
 
 ENV DJANGO_SETTINGS_MODULE=oc_lettings_site.settings
 
-EXPOSE 8080
+PORT=8080
 
-CMD ["python", "oc_lettings_site/manage.py", "runserver"]
+EXPOSE $PORT
+
+CMD ["python", "oc_lettings_site/manage.py", "runserver", "0.0.0.0:$PORT"]
