@@ -1,5 +1,4 @@
 import os
-import sys
 
 
 def main():
@@ -12,7 +11,8 @@ def main():
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
-    execute_from_command_line(sys.argv)
+    port = int(os.environ.get("PORT", 8080))
+    execute_from_command_line(["manage.py", "runserver", f"0.0.0.0:{port}"])
 
 
 if __name__ == "__main__":
