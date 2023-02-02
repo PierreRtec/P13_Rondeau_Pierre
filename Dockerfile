@@ -12,7 +12,7 @@ RUN pip install -r requirements.txt
 
 ENV DJANGO_SETTINGS_MODULE=oc_lettings_site.settings
 
-PORT=8080
+ENV PORT=8000
 
 EXPOSE $PORT
 
