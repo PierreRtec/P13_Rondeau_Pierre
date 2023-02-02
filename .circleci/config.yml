@@ -20,8 +20,10 @@ jobs:
           command: |
             cd ./oc_lettings_site/
             python -m manage test $TEST_DIR_OC_LETTINGS_SITE $TEST_DIR_LETTINGS $TEST_DIR_PROFILES
+  heroku:
+    steps:
       - run:
-          name: Heroku API Key and App creation
+          name: Heroku API Key and App Creation
           command: |
             curl https://cli-assets.heroku.com/install.sh | sh
             export HEROKU_API_KEY="$(heroku auth:token)"
@@ -30,8 +32,10 @@ jobs:
             heroku create -a prodev-oc-lettings-site
             heroku buildpacks:set heroku/python -a prodev-oc-lettings-site
             heroku config:set PORT=$PORT -a prodev-oc-lettings-site
+  docker:
+    steps:
       - run:
-          name: Docker Auth, Build and Push to Heroku
+          name: Docker Auth, Build and Push
           command: |
             echo $docker_password | docker login -u $docker_username --password-stdin
             docker build -t p13_oc_lettings_site .
