@@ -1,1 +1,1 @@
-web: gunicorn oc_lettings_site.oc_lettings_site.wsgi
+web: gunicorn oc_lettings_site.oc_lettings_site.wsgi --port 8080
