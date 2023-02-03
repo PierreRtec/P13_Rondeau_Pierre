@@ -1,40 +1,52 @@
 version: 2.1
 
+orbs:
+  python: circleci/python@2.0.3
+  heroku: circleci/heroku@1.2.6
+
 jobs:
-  build:
-    docker:
-      - image: circleci/python:3.9-buster-node-browsers-legacy
+  test_and_lint:
+    executor: python/default
     steps:
-      - checkout
-      - setup_remote_docker
       - run:
-          name: Install dependencies and Linting
+          name: Install Dependencies
           command: |
             pip install --upgrade pip
             pip install -r requirements.txt
+      - run:
+          name: Test and Lint
+          command: |
             isort .
             flake8 .
             black .
-      - run:
-          name: Testing
-          command: |
             cd ./oc_lettings_site/
             python -m manage test $TEST_DIR_OC_LETTINGS_SITE $TEST_DIR_LETTINGS $TEST_DIR_PROFILES
+
+  deploy:
+    executor: python/default
+    steps:
       - run:
-          name: Heroku API Key and App creation
+          name: Set Heroku API Key
           command: |
-            curl https://cli-assets.heroku.com/install.sh | sh
-            export HEROKU_API_KEY="$(heroku auth:token)"
-            echo "HEROKU_API_KEY=${HEROKU_API_KEY}" >> $BASH_ENV
+            echo "HEROKU_API_KEY=$HEROKU_API_KEY" >> $BASH_ENV
             echo $HEROKU_API_KEY | heroku auth:token
-            heroku create -a prodev-oc-lettings-site
-            heroku buildpacks:set heroku/python -a prodev-oc-lettings-site
-      - run:
-          name: Docker Auth, Build and Push to Heroku
-          command: |
-            echo $docker_password | docker login -u $docker_username --password-stdin
-            docker build -t p13_oc_lettings_site .
-            docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
-            docker tag p13_oc_lettings_site registry.heroku.com/prodev-oc-lettings-site/web
-            docker push registry.heroku.com/prodev-oc-lettings-site/web:latest
-            heroku container:release web -a prodev-oc-lettings-site
+      - heroku/deploy-container:
+          app_name: prodev-oc-lettings-site
+          buildpack: heroku/python
+          config_vars:
+            PORT: $PORT
+          container_registry:
+            image: p13_oc_lettings_site
+            username: $docker_username
+            password: $HEROKU_API_KEY
+
+workflows:
+  test_and_deploy:
+    jobs:
+      - test_and_lint
+      - deploy:
+          requires:
+            - test_and_lint
+          filters:
+            branches:
+              only: developp
