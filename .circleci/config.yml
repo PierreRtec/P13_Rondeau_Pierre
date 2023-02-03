@@ -37,6 +37,7 @@ jobs:
           name: Docker Login
           command: |
             echo "$PARAM_DOCKER_PASSWORD" | docker login -u "$PARAM_DOCKER_USERNAME" --password-stdin
+            docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
       - docker/push:
           image: P13_Rondeau_Pierre/p13_oc_lettings_site
       - heroku/release-docker-image:
