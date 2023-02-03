@@ -26,8 +26,6 @@ jobs:
             black .
 
   test:
-    docker:
-      - image: circleci/python:3.9-buster-node-browsers-legacy
     steps:
       - run:
           name: Testing
