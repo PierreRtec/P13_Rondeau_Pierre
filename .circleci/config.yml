@@ -1,7 +1,16 @@
 version: 2.1
 
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - install_dependencies
+      - test
+      - create_heroku_app
+      - docker_auth_build_push
+
 jobs:
-  build_and_lint:
+  install_dependencies:
     docker:
       - image: circleci/python:3.9-buster-node-browsers-legacy
     steps:
@@ -16,49 +25,40 @@ jobs:
             flake8 .
             black .
 
-  testing:
-    - steps:
+  test:
+    docker:
+      - image: circleci/python:3.9-buster-node-browsers-legacy
+    steps:
       - run:
           name: Testing
           command: |
             cd ./oc_lettings_site/
             python -m manage test $TEST_DIR_OC_LETTINGS_SITE $TEST_DIR_LETTINGS $TEST_DIR_PROFILES
 
-  heroku_deploy:
+  create_heroku_app:
+    docker:
+      - image: circleci/python:3.9-buster-node-browsers-legacy
     steps:
-      - checkout
-      - setup_remote_docker
       - run:
-        name: Heroku API Key and App creation
-        command: |
-          curl https://cli-assets.heroku.com/install.sh | sh
-          export HEROKU_API_KEY="$(heroku auth:token)"
-          echo "HEROKU_API_KEY=${HEROKU_API_KEY}" >> $BASH_ENV
-          echo $HEROKU_API_KEY | heroku auth:token
-          heroku create -a prodev-oc-lettings-site
-          heroku buildpacks:set heroku/python -a prodev-oc-lettings-site
+          name: Heroku API Key and App creation
+          command: |
+            curl https://cli-assets.heroku.com/install.sh | sh
+            export HEROKU_API_KEY="$(heroku auth:token)"
+            echo "HEROKU_API_KEY=${HEROKU_API_KEY}" >> $BASH_ENV
+            echo $HEROKU_API_KEY | heroku auth:token
+            heroku create -a prodev-oc-lettings-site
+            heroku buildpacks:set heroku/python -a prodev-oc-lettings-site
+
+  docker_auth_build_push:
+    docker:
+      - image: circleci/python:3.9-buster-node-browsers-legacy
+    steps:
       - run:
-        name: Docker Auth, Build and Push to Heroku
-        command: |
-          echo $PARAM_DOCKER_PASSWORD | docker login -u $PARAM_DOCKER_USERNAME --password-stdin
-          docker build -t p13_oc_lettings_site .
-          docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
-          docker tag p13_oc_lettings_site registry.heroku.com/prodev-oc-lettings-site/web
-          docker push registry.heroku.com/prodev-oc-lettings-site/web:latest
-          heroku container:release web -a prodev-oc-lettings-site
-
-
-workflows:
-  build_and_lint:
-    jobs:
-      - build_and_lint
-      - testing:
-          requires:
-            - build_and_lint
-          filters:
-            branches:
-              only: develop
-      - heroku_deploy:
-          requires:
-            - build_and_lint
-            - testing
+          name: Docker Auth, Build and Push to Heroku
+          command: |
+            echo $PARAM_DOCKER_PASSWORD | docker login -u $PARAM_DOCKER_USERNAME --password-stdin
+            docker build -t p13_oc_lettings_site .
+            docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
+            docker tag p13_oc_lettings_site registry.heroku.com/prodev-oc-lettings-site/web
+            docker push registry.heroku.com/prodev-oc-lettings-site/web:latest
+            heroku container:release web -a prodev-oc-lettings-site
