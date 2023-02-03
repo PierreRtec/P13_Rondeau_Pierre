@@ -29,7 +29,7 @@ jobs:
     steps:
       - checkout
       - heroku/deploy-via-git:
-          api-key: $HEROKU_API_KEY
+          api-key: HEROKU_API_KEY
           app-name: prodev-oc-lettings-site
           branch: develop
           force: false
