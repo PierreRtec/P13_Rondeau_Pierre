@@ -35,6 +35,12 @@ jobs:
           image: P13_Rondeau_Pierre/orb-p13_oc_lettings_site
       - docker/push:
           image: P13_Rondeau_Pierre/p13_oc_lettings_site
+          username: $docker_username
+          password: $docker_password
+      - heroku/push:
+          app-name: prodev-oc-lettings-site
+          image: P13_Rondeau_Pierre/p13_oc_lettings_site
+          api-key: $HEROKU_API_KEY
 
 workflows:
   test_and_deploy:
