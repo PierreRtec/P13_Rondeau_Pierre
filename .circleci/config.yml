@@ -9,11 +9,9 @@ jobs:
     executor: python/default
     steps:
       - run:
-          name: Install Dependencies
+          name: print path
           command: |
             ls
-            pip install --upgrade pip
-            pip install -r requirements.txt
       - run:
           name: Test and Lint
           command: |
