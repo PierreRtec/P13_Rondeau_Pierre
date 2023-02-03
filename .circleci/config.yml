@@ -49,7 +49,7 @@ jobs:
 
 
   release-heroku:
-    executor: docker/docker
+    executor: heroku/default
     steps:
       - run:
           name: Docker Auth, Build and Push to Heroku
