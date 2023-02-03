@@ -36,7 +36,7 @@ jobs:
       - run:
           name: Docker Login
           command: |
-            echo "${docker_password}" | docker login -u "${docker_username}" --password-stdin
+            echo $docker_password | docker login -u $docker_username --password-stdin
       - docker/push:
           image: P13_Rondeau_Pierre/p13_oc_lettings_site
       - heroku/release-docker-image:
