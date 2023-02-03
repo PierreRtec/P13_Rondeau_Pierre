@@ -39,10 +39,10 @@ jobs:
             echo "${docker_password}" | docker login -u "${docker_username}" --password-stdin
       - docker/push:
           image: P13_Rondeau_Pierre/p13_oc_lettings_site
-      - heroku/release:
-          app-name: prodev-oc-lettings-site
-          image: P13_Rondeau_Pierre/p13_oc_lettings_site
+      - heroku/release-docker-image:
           api-key: $HEROKU_API_KEY
+          app-name: prodev-oc-lettings-site
+          process-types: web
 
 workflows:
   test_and_deploy:
