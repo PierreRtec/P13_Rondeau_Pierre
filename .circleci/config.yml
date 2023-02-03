@@ -39,6 +39,7 @@ jobs:
             heroku buildpacks:set heroku/python -a prodev-oc-lettings-site
 
   docker-login:
+    executor: docker/default
     steps:
       - run:
           name: Docker Login
