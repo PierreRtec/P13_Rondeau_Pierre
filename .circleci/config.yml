@@ -8,10 +8,13 @@ jobs:
   test_and_lint:
     executor: python/default
     steps:
+      - checkout
+      - setup_remote_docker
       - run:
-          name: print path
+          name: Install dependencies
           command: |
-            ls
+            pip install --upgrade pip
+            pip install -r requirements.txt
       - run:
           name: Test and Lint
           command: |
