@@ -1,16 +1,7 @@
 version: 2.1
 
-workflows:
-  version: 2
-  build_and_deploy:
-    jobs:
-      - build_and_lint_test
-      - create_heroku_app_and_push:
-          requires:
-            - build_and_lint_test
-
 jobs:
-  build_and_lint_test:
+  build:
     docker:
       - image: circleci/python:3.9-buster-node-browsers-legacy
     steps:
@@ -29,11 +20,6 @@ jobs:
           command: |
             cd ./oc_lettings_site/
             python -m manage test $TEST_DIR_OC_LETTINGS_SITE $TEST_DIR_LETTINGS $TEST_DIR_PROFILES
-
-  create_heroku_app_and_push:
-    docker:
-      - image: circleci/python:3.9-buster-node-browsers-legacy
-    steps:
       - run:
           name: Heroku API Key and App creation
           command: |
