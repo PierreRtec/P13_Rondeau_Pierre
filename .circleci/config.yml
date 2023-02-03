@@ -31,7 +31,9 @@ jobs:
       - run:
           name: Set Heroku API Key
           command: |
-            echo "HEROKU_API_KEY=$HEROKU_API_KEY" >> $BASH_ENV
+            curl https://cli-assets.heroku.com/install.sh | sh
+            export HEROKU_API_KEY="$(heroku auth:token)"
+            echo "HEROKU_API_KEY=${HEROKU_API_KEY}" >> $BASH_ENV
             echo $HEROKU_API_KEY | heroku auth:token
 
   deploy-docker-heroku:
