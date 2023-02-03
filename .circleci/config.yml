@@ -25,17 +25,21 @@ jobs:
             python -m manage test $TEST_DIR_OC_LETTINGS_SITE $TEST_DIR_LETTINGS $TEST_DIR_PROFILES
 
   deploy:
-    name: Deploy to Heroku
-    command: |
-      heroku create -a prodev-oc-lettings-site
-      heroku buildpacks:set heroku/python -a prodev-oc-lettings-site
-      heroku config:set PORT=$PORT -a prodev-oc-lettings-site
-      echo $docker_password | docker login -u $docker_username --password-stdin
-      docker build -t p13_oc_lettings_site .
-      docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
-      docker tag p13_oc_lettings_site registry.heroku.com/prodev-oc-lettings-site/web
-      docker push registry.heroku.com/prodev-oc-lettings-site/web:latest
-      heroku container:release web -a prodev-oc-lettings-site
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+        name: Deploy to Heroku
+        command: |
+          heroku create -a prodev-oc-lettings-site
+          heroku buildpacks:set heroku/python -a prodev-oc-lettings-site
+          heroku config:set PORT=$PORT -a prodev-oc-lettings-site
+          echo $docker_password | docker login -u $docker_username --password-stdin
+          docker build -t p13_oc_lettings_site .
+          docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
+          docker tag p13_oc_lettings_site registry.heroku.com/prodev-oc-lettings-site/web
+          docker push registry.heroku.com/prodev-oc-lettings-site/web:latest
+          heroku container:release web -a prodev-oc-lettings-site
 
 workflows:
   test_and_deploy:
