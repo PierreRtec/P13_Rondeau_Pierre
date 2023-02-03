@@ -38,13 +38,20 @@ jobs:
             heroku create -a prodev-oc-lettings-site
             heroku buildpacks:set heroku/python -a prodev-oc-lettings-site
 
+  docker-login:
+    executor: docker/docker
+    steps:
+      - run:
+          name: Docker Login
+          command: |
+            echo $PARAM_DOCKER_PASSWORD | docker login -u $PARAM_DOCKER_PASSWORD --password-stdin
+
   release-heroku:
     executor: heroku/default
     steps:
       - run:
-          name: Docker Auth, Build and Push to Heroku
+          name: Docker Build and Push to Heroku
           command: |
-            echo $PARAM_DOCKER_PASSWORD | docker login -u $PARAM_DOCKER_PASSWORD --password-stdin
             docker build -t p13_oc_lettings_site .
             docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
             docker tag p13_oc_lettings_site registry.heroku.com/prodev-oc-lettings-site/web
@@ -61,10 +68,10 @@ workflows:
           filters:
             branches:
               only: develop
-      - release-heroku:
+      - docker-login:
           requires:
             - heroku-build
-          filters:
-            branches:
-              only: develop
+      - release-heroku:
+          requires:
+            - docker-login
 
