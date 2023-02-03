@@ -35,17 +35,26 @@ jobs:
             export HEROKU_API_KEY="$(heroku auth:token)"
             echo "HEROKU_API_KEY=${HEROKU_API_KEY}" >> $BASH_ENV
             echo $HEROKU_API_KEY | heroku auth:token
+            heroku create -a prodev-oc-lettings-site
+            heroku buildpacks:set heroku/python -a prodev-oc-lettings-site
+      - run:
+          name: Docker Auth, Build and Push to Heroku
+          command: |
+            echo $docker_password | docker login -u $docker_username --password-stdin
+            docker build -t p13_oc_lettings_site .
+            docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
+            docker tag p13_oc_lettings_site registry.heroku.com/prodev-oc-lettings-site/web
+            docker push registry.heroku.com/prodev-oc-lettings-site/web:latest
+            heroku container:release web -a prodev-oc-lettings-site
 
-  deploy-docker-heroku:
+
+  release-heroku:
     executor: docker/docker
     steps:
       - run:
-          name: Deploy to Heroku
+          name: Docker Auth, Build and Push to Heroku
           command: |
-            heroku create -a prodev-oc-lettings-site
-            heroku buildpacks:set heroku/python -a prodev-oc-lettings-site
-            heroku config:set PORT=$PORT -a prodev-oc-lettings-site
-            echo $PARAM_DOCKER_PASSWORD | docker login -u $PARAM_DOCKER_USERNAME --password-stdin
+            echo $docker_password | docker login -u $docker_username --password-stdin
             docker build -t p13_oc_lettings_site .
             docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
             docker tag p13_oc_lettings_site registry.heroku.com/prodev-oc-lettings-site/web
@@ -63,7 +72,7 @@ workflows:
           filters:
             branches:
               only: develop
-      - deploy-docker-heroku:
+      - release-heroku:
           requires:
             - heroku-build
           filters:
