@@ -5,8 +5,12 @@ workflows:
   build_and_deploy:
     jobs:
       - build_and_lint_test
-      - create_heroku_app
-      - docker_auth_build_push
+      - create_heroku_app:
+          requires:
+            - build_and_lint_test
+      - docker_auth_build_push:
+          requires:
+            - create_heroku_app
 
 jobs:
   build_and_lint_test:
