@@ -29,6 +29,11 @@ jobs:
       - image: cimg/base:stable
     steps:
       - run:
+            name: Set Heroku API Key
+            command: |
+              echo "HEROKU_API_KEY=$HEROKU_API_KEY" >> $BASH_ENV
+              echo $HEROKU_API_KEY | heroku auth:token
+      - run:
           name: Deploy to Heroku
           command: |
             heroku create -a prodev-oc-lettings-site
