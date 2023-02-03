@@ -45,6 +45,7 @@ jobs:
           name: Docker Login
           command: |
             echo $PARAM_DOCKER_PASSWORD | docker login -u $PARAM_DOCKER_PASSWORD --password-stdin
+            docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
 
   release-heroku:
     executor: heroku/default
