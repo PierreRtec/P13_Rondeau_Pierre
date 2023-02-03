@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   python: circleci/python@2.0.3
-  heroku: circleci/heroku@1.2.6
+  heroku: circleci/heroku@2.0.0
 
 jobs:
   test_and_lint:
@@ -23,22 +23,16 @@ jobs:
             python -m manage test $TEST_DIR_OC_LETTINGS_SITE $TEST_DIR_LETTINGS $TEST_DIR_PROFILES
 
   deploy:
-    executor: python/default
+    executor: heroku/default
     steps:
+      - heroku/install
       - run:
-          name: Set Heroku API Key
-          command: |
-            echo "HEROKU_API_KEY=$HEROKU_API_KEY" >> $BASH_ENV
-            echo $HEROKU_API_KEY | heroku auth:token
-      - heroku/deploy-container:
+          name: Login to Heroku
+          command: echo $HEROKU_API_KEY | heroku auth:login
+      - heroku/push:
+          api-key: $HEROKU_API_KEY
           app_name: prodev-oc-lettings-site
-          buildpack: heroku/python
-          config_vars:
-            PORT: $PORT
-          container_registry:
-            image: p13_oc_lettings_site
-            username: $docker_username
-            password: $HEROKU_API_KEY
+          recursive: false
 
 workflows:
   test_and_deploy:
@@ -49,4 +43,4 @@ workflows:
             - test_and_lint
           filters:
             branches:
-              only: developp
+              only: develop
