@@ -6,6 +6,7 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /P13_Rondeau_Pierre
 
 COPY . /P13_Rondeau_Pierre/
+COPY . /P13_Rondeau_Pierre/oc_lettings_site
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
