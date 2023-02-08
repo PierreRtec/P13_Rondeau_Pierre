@@ -12,7 +12,6 @@ RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 ENV DJANGO_SETTINGS_MODULE=oc_lettings_site.settings
-ENV PORT=8000
 
 EXPOSE 8000
 
