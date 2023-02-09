@@ -16,4 +16,4 @@ ENV PORT=8000
 
 EXPOSE 8000
 
-CMD ["python", "oc_lettings_site/manage.py", "runserver"]
+CMD ["gunicorn", "oc_lettings_site.oc_lettings_site.wsgi", "--bind", "0.0.0.0:$PORT"]
