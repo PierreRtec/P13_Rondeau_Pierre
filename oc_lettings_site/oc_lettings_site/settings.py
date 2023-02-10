@@ -59,7 +59,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "oc_lettings_site.wsgi.application"
+WSGI_APPLICATION = "oc_lettings_site.oc_lettings_site.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
