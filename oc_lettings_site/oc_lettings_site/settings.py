@@ -20,9 +20,9 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
-    "oc_lettings_site.lettings.apps.LettingsConfig",
-    "oc_lettings_site.profiles.apps.ProfilesConfig",
-    # "oc_lettings_site.apps.OCLettingsSiteConfig",
+    "lettings.apps.LettingsConfig",
+    "profiles.apps.ProfilesConfig",
+    "oc_lettings_site.apps.OCLettingsSiteConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -41,7 +41,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "oc_lettings_site.oc_lettings_site.urls"
+ROOT_URLCONF = "oc_lettings_site.urls"
 
 TEMPLATES = [
     {
@@ -88,6 +88,7 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
