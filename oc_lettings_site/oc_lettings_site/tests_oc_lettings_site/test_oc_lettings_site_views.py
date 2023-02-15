@@ -2,8 +2,8 @@ from assertpy import assert_that
 from django.test import Client, TestCase
 from django.contrib.auth.models import User
 
-from lettings.models import Address, Letting
-from profiles.models import Profile
+from ...lettings.models import Address, Letting
+from ...profiles.models import Profile
 
 client = Client()
 

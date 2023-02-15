@@ -1,7 +1,7 @@
 from assertpy import assert_that
 from django.contrib.auth.models import User
 from django.test import Client, TestCase
-from lettings.models import Address, Letting
+from ..models import Address, Letting
 
 client = Client()
 
