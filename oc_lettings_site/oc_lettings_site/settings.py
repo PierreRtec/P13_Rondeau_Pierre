@@ -20,9 +20,8 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
-    "lettings.apps.LettingsConfig",
-    "profiles.apps.ProfilesConfig",
-    "oc_lettings_site.apps.OCLettingsSiteConfig",
+    "oc_lettings_site.lettings.apps.LettingsConfig",
+    "oc_lettings_site.profiles.apps.ProfilesConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -41,7 +40,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "oc_lettings_site.urls"
+ROOT_URLCONF = "oc_lettings_site.oc_lettings_site.urls"
 
 TEMPLATES = [
     {

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from profiles.models import Profile
+from .models import Profile
 
 
 # Sed placerat quam in pulvinar commodo. Nullam laoreet consectetur ex,
