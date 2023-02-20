@@ -28,7 +28,6 @@ jobs:
             echo "HEROKU_API_KEY=${HEROKU_API_KEY}" >> $BASH_ENV
             echo $HEROKU_API_KEY | heroku auth:token
             heroku create -a prodev-oc-lettings-site
-            heroku config:set PORT=$PORT
             heroku buildpacks:add heroku/python -a prodev-oc-lettings-site
       - run:
           name: Docker Auth, Build and Push to Heroku
