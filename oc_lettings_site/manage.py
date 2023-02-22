@@ -1,12 +1,11 @@
 import os
-import re
 import sys
 
 
 def main():
     path = (
         "oc_lettings_site."
-        if re.split(r"[\\/]", os.getcwd())[-1] in ["P13_Rondeau_Pierre", "project"]
+        if os.path.basename(os.getcwd()) in ["P13_Rondeau_Pierre", "project"]
         else ""
     )
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", path + "oc_lettings_site.settings")
