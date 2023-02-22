@@ -15,10 +15,10 @@ jobs:
             isort .
             flake8 .
             black .
-#      - run:
-#          name: Testing
-#          command: |
-#            python -m oc_lettings_site.manage test $TEST_DIR_OC_LETTINGS_SITE $TEST_DIR_LETTINGS $TEST_DIR_PROFILES
+      - run:
+          name: Testing
+          command: |
+            python -m oc_lettings_site.manage test $TEST_DIR_OC_LETTINGS_SITE $TEST_DIR_LETTINGS $TEST_DIR_PROFILES
       - run:
           name: Heroku API Key and App creation
           command: |
