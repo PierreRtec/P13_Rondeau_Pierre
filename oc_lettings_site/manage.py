@@ -3,6 +3,7 @@ import sys
 
 
 def main():
+    print(os.getcwd())
     path = (
         "oc_lettings_site."
         if os.getcwd().split("\\")[-1] == "P13_Rondeau_Pierre"
