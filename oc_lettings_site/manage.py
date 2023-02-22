@@ -3,7 +3,12 @@ import sys
 
 
 def main():
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "oc_lettings_site.settings")
+    path = (
+        "oc_lettings_site."
+        if os.getcwd().split("\\")[-1] == "P13_Rondeau_Pierre"
+        else ""
+    )
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", path + "oc_lettings_site.settings")
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
