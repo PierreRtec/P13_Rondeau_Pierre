@@ -3,10 +3,9 @@ import sys
 
 
 def main():
-    print(os.getcwd())
     path = (
         "oc_lettings_site."
-        if os.getcwd().split("\\")[-1] == "P13_Rondeau_Pierre"
+        if os.getcwd().split("\\")[-1] in ["P13_Rondeau_Pierre", "project"]
         else ""
     )
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", path + "oc_lettings_site.settings")
