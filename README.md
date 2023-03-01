@@ -10,6 +10,7 @@ Site web d'Orange County Lettings
 - Git CLI
 - SQLite3 CLI
 - Interpréteur Python, version 3.6 ou supérieure
+- Docker (Docker Desktop si vous êtes sous Windows)
 
 Dans le reste de la documentation sur le développement local, il est supposé que la commande `python` de votre OS shell exécute l'interpréteur Python ci-dessus (à moins qu'un environnement virtuel ne soit activé).
 
@@ -18,59 +19,57 @@ Dans le reste de la documentation sur le développement local, il est supposé q
 #### Cloner le repository
 
 - `cd /path/to/put/project/in`
-- `git clone https://github.com/OpenClassrooms-Student-Center/Python-OC-Lettings-FR.git`
+- `git clone https://github.com/PierreRtec/P13_Rondeau_Pierre.git`
 
 #### Créer l'environnement virtuel
 
-- `cd /path/to/Python-OC-Lettings-FR`
-- `python -m venv venv`
-- `apt-get install python3-venv` (Si l'étape précédente comporte des erreurs avec un paquet non trouvé sur Ubuntu)
-- Activer l'environnement `source venv/bin/activate`
-- Confirmer que la commande `python` exécute l'interpréteur Python dans l'environnement virtuel
-`which python`
-- Confirmer que la version de l'interpréteur Python est la version 3.6 ou supérieure `python --version`
-- Confirmer que la commande `pip` exécute l'exécutable pip dans l'environnement virtuel, `which pip`
-- Pour désactiver l'environnement, `deactivate`
+- `cd './P13_Rondeau_Pierre/'`
+- Installer les dépendances `pipenv install`
+- Activer l'environnement `pipenv shell`
 
-#### Exécuter le site
+#### Exécuter le site localement
 
-- `cd /path/to/Python-OC-Lettings-FR`
-- `source venv/bin/activate`
-- `pip install --requirement requirements.txt`
-- `python manage.py runserver`
-- Aller sur `http://localhost:8000` dans un navigateur.
+- ouvrir un terminal depuis la racine du projet (au même niveau que le Dockerfile)
+- construire l'image Docker "p13_oc_lettings_site" `docker build -t p13_oc_lettings_site .`
+- lancer Docker en local `docker run -p 8000:8000 -e WEB_CONCURRENCY=1 -e PORT=8000 p13_oc_lettings_site`
+- Ctrl+click : `http://localhost:8000`
 - Confirmer que le site fonctionne et qu'il est possible de naviguer (vous devriez voir plusieurs profils et locations).
 
 #### Linting
 
-- `cd /path/to/Python-OC-Lettings-FR`
-- `source venv/bin/activate`
-- `flake8`
+- `cd ./P13_Rondeau_Pierre/`
+- `isort .`
+- `flake8 .`
+- `black .`
 
 #### Tests unitaires
 
-- `cd /path/to/Python-OC-Lettings-FR`
-- `source venv/bin/activate`
-- `pytest`
+##### Tests oc_lettings_site :
+
+- `cd ./P13_Rondeau_Pierre/`
+
+- `py -m oc_lettings_site.manage test oc_lettings_site.oc_lettings_site.tests_oc_lettings_site.test_oc_lettings_site_views`
+
+##### Tests lettings app :
+
+- `py -m oc_lettings_site.manage test oc_lettings_site.lettings.tests_lettings.test_lettings_views`
+
+##### Tests profiles app :
+
+- `py -m oc_lettings_site.manage test oc_lettings_site.profiles.tests_profiles.test_profiles_views`
 
 #### Base de données
 
-- `cd /path/to/Python-OC-Lettings-FR`
-- Ouvrir une session shell `sqlite3`
+- `cd ./P13_Rondeau_Pierre/oc_lettings_site/`
+- check avec "ls" ou "dir" si la base de données 'oc-lettings-site.sqlite3' est bien présente 
+- Jouer la commande `sqlite3`
 - Se connecter à la base de données `.open oc-lettings-site.sqlite3`
 - Afficher les tables dans la base de données `.tables`
-- Afficher les colonnes dans le tableau des profils, `PRAGMA table_info(oc_lettings_site_profile);`
-- Lancer une requête sur la table des profils, `SELECT user_id, favorite_city FROM oc_lettings_site_profile WHERE favorite_city LIKE 'B%';`
+- Afficher les colonnes dans le tableau des profils, `PRAGMA table_info(profiles_profile);`
+- Lancer une requête sur la table des profils, `SELECT user_id, favorite_city FROM profiles_profile WHERE favorite_city LIKE 'B%';`
 - `.quit` pour quitter OU Ctrl+C
 
 #### Panel d'administration
 
 - Aller sur `http://localhost:8000/admin`
 - Connectez-vous avec l'utilisateur `admin`, mot de passe `Abc1234!`
-
-### Windows
-
-Utilisation de PowerShell, comme ci-dessus sauf :
-
-- Pour activer l'environnement virtuel, `pipenv shell`
-- Pour installer les dépendances, `pipenv install`
