@@ -83,11 +83,11 @@ Nous avons un fichier de configuration YML pour configurer la pipeline CircleCI.
 
 - '**version: 2.1**' : Indique la version de la configuration de CircleCI utilisée.
 
-- '**jobs**' : Définit une liste de travaux pour exécuter.
+- '**jobs**' : Définit une liste de travaux à exécuter.
 
-- '**build**' : Définit le nom du travail. Ce travail utilise une image Docker circleci/python:3.9-buster-node-browsers-legacy et exécute plusieurs étapes.
+- '**build**' : Définit le nom du build. Ce build utilise une image Docker "circleci/python:3.9-buster-node-browsers-legacy" et exécute plusieurs étapes.
 
-- '**steps**' : Définit une liste d'étapes pour exécuter le travail de construction.
+- '**steps**' : Définit une liste d'étapes pour exécuter le travail de construction (build).
 
 - '**checkout**' : Clone le dépôt Git actuel pour accéder au code source.
 
