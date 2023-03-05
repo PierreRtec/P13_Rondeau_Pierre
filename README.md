@@ -73,3 +73,38 @@ Dans le reste de la documentation sur le développement local, il est supposé q
 
 - Aller sur `http://localhost:8000/admin`
 - Connectez-vous avec l'utilisateur `admin`, mot de passe `Abc1234!`
+
+---
+
+
+### CircleCI
+
+Nous avons un fichier de configuration YML pour configurer la pipeline CircleCI. Voici une brève documentation pour chacun des éléments du fichier `config.yml` :
+
+- '**version: 2.1**' : Indique la version de la configuration de CircleCI utilisée.
+
+- '**jobs**' : Définit une liste de travaux pour exécuter.
+
+- '**build**' : Définit le nom du travail. Ce travail utilise une image Docker circleci/python:3.9-buster-node-browsers-legacy et exécute plusieurs étapes.
+
+- '**steps**' : Définit une liste d'étapes pour exécuter le travail de construction.
+
+- '**checkout**' : Clone le dépôt Git actuel pour accéder au code source.
+
+- '**setup_remote_docker**' : Installe et configure Docker pour exécuter des images Docker.
+
+- '**run**' : Permet d'exécuter une commande avec un nom donné.
+
+- '**Install dependencies and Linting**' : Installe les dépendances Python nécessaires pour exécuter l'application et effectue des vérifications de code avec -> isort, flake8 et black.
+
+- '**Testing**' : Exécute des tests unitaires avec le code de l'application.
+
+- '**Heroku API Key and App creation**' : Installe l'interface en ligne de commande Heroku, crée une clé d'API Heroku, ajoute les buildpacks requis et crée une nouvelle application Heroku.
+
+- '**Docker Auth, Build and Push to Heroku**' : Connecte Docker à l'API Heroku, construit et pousse une image Docker de l'application sur Heroku, puis lance l'application.
+
+Pour améliorer cette configuration, nous pourrions envisager l'utilisation d'orbs CircleCI pour simplifier la 
+configuration et la gestion de "secrets". Nous pourrions également ajouter des méthodes de confidentialité supplémentaires 
+pour notre application Django en utilisant des solutions telles que "Hashicorp Vault" pour stocker et gérer les secrets 
+de l'application. Il faudrait donc envisager une nouvelle version de l'application encore plus sécurisée. Mais nous pourrions
+également envisager l'utilisation de workers en parallèle. Ce qui permettrait d'obtenir de meilleures performances de déploiement et de livraison continue.
