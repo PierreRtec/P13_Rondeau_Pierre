@@ -19,24 +19,21 @@ jobs:
           name: Testing
           command: |
             python -m oc_lettings_site.manage test $TEST_DIR_OC_LETTINGS_SITE $TEST_DIR_LETTINGS $TEST_DIR_PROFILES
-      - when:
-        branch: main
-        steps:
-          - run:
-              name: Heroku API Key and App creation
-              command: |
-                curl https://cli-assets.heroku.com/install.sh | sh
-                export HEROKU_API_KEY="$(heroku auth:token)"
-                echo "HEROKU_API_KEY=${HEROKU_API_KEY}" >> $BASH_ENV
-                echo $HEROKU_API_KEY | heroku auth:token
-                heroku create -a prodev-oc-lettings-site
-                heroku buildpacks:add heroku/python -a prodev-oc-lettings-site
-          - run:
-              name: Docker Auth, Build and Push to Heroku
-              command: |
-                echo $PARAM_DOCKER_PASSWORD | docker login -u $PARAM_DOCKER_USERNAME --password-stdin
-                docker build -t p13_oc_lettings_site .
-                docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
-                docker tag p13_oc_lettings_site registry.heroku.com/prodev-oc-lettings-site/web
-                docker push registry.heroku.com/prodev-oc-lettings-site/web:latest
-                heroku container:release web -a prodev-oc-lettings-site
+      - run:
+          name: Heroku API Key and App creation
+          command: |
+            curl https://cli-assets.heroku.com/install.sh | sh
+            export HEROKU_API_KEY="$(heroku auth:token)"
+            echo "HEROKU_API_KEY=${HEROKU_API_KEY}" >> $BASH_ENV
+            echo $HEROKU_API_KEY | heroku auth:token
+            heroku create -a prodev-oc-lettings-site
+            heroku buildpacks:add heroku/python -a prodev-oc-lettings-site
+      - run:
+          name: Docker Auth, Build and Push to Heroku
+          command: |
+            echo $PARAM_DOCKER_PASSWORD | docker login -u $PARAM_DOCKER_USERNAME --password-stdin
+            docker build -t p13_oc_lettings_site .
+            docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
+            docker tag p13_oc_lettings_site registry.heroku.com/prodev-oc-lettings-site/web
+            docker push registry.heroku.com/prodev-oc-lettings-site/web:latest
+            heroku container:release web -a prodev-oc-lettings-site
